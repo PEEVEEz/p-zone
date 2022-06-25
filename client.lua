@@ -7,7 +7,7 @@ CreateThread(function()
         Wait(500)
         local playerCoords = GetEntityCoords(PlayerPedId())
 
-        for k,v in pairs(Zones) do
+        for k, v in pairs(Zones) do
             if #(playerCoords - v.coords) < v.radius then
                 if not InZone and k ~= InZoneName then
                     InZone = true
@@ -26,29 +26,31 @@ CreateThread(function()
 end)
 
 
+---@param coords table
+---@param radius number
+---@param name string
+---@return boolean
 function registerZone(coords, radius, name)
-    if Zones["zone_"..name] then
-        print("[WARNING] Zone already exists. Reregistering zone: "..name)
-        Zones["zone_"..name] = nil
+    if Zones["zone_" .. name] then
+        print("[WARNING] Zone already exists. Reregistering zone: " .. name)
+        Zones["zone_" .. name] = nil
     end
 
-    Zones["zone_"..name] = { 
-        coords = coords, 
-        radius = radius 
+    Zones["zone_" .. name] = {
+        coords = coords,
+        radius = radius
     }
     return true
 end
 
+---@param name string
+---@return boolean
 function removeZone(name)
-    if not Zones["zone_"..name] then
-        print("[ERROR] Zone doesn't exist ("..name..")")
+    if not Zones["zone_" .. name] then
+        print("[ERROR] Zone doesn't exist (" .. name .. ")")
         return false
-    end 
+    end
 
-    Zones["zone_"..name] = nil
+    Zones["zone_" .. name] = nil
     return true
 end
-
-
-exports("removeZone", removeZone)
-exports("registerZone", registerZone)
